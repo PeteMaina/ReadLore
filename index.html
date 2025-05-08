@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadLore - Your PDF Library</title>
+    <style>
+        :root {
+            --dark-green: #2c614f;
+            --light-green: #6ab29a;
+            --dark-blue: #1e3d59;
+            --light-blue: #5e89b8;
+            --bg-color: #f5f5f7;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        /* Authentication Pages (Login, Signup, Forgot Password) */
+        .auth-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .auth-image {
+            flex: 1;
+            background: linear-gradient(135deg, var(--dark-green), var(--dark-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .auth-image h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-image p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .auth-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .auth-form h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-blue);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--light-blue);
+            outline: none;
+        }
+        
+        .auth-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        
+        .auth-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .auth-links {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .auth-links a {
+            color: var(--dark-blue);
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+        
+        .auth-links a:hover {
+            color: var(--light-blue);
+            text-decoration: underline;
+        }
+        
+        /* Main App Interface */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 240px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(106, 178, 154, 0.2);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            width: 50%;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 0.5rem;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .pdf-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .pdf-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pdf-cover {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .pdf-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .pdf-info {
+            padding: 1rem;
+        }
+        
+        .pdf-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .pdf-author {
+            font-size: 0.9rem;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .current-pdf {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .current-pdf img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 5px;
+        }
+        
+        .pdf-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .pdf-details p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0 0.8rem;
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            transition: color 0.3s;
+        }
+        
+        .control-btn:hover {
+            color: var(--light-blue);
+        }
+        
+        .control-btn.main {
+            width: 40px;
+            height: 40px;
+            background-color: var(--dark-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1.5rem;
+        }
+        
+        .progress-container {
+            flex: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--light-green);
+            width: 30%;
+        }
+        
+        .time {
+            font-size: 0.8rem;
+            color: #777;
+            margin: 0 0.8rem;
+        }
+
+        /* Modal for PDF Preview */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            width: 80%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            color: var(--dark-blue);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .pdf-details-container {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .pdf-details-container img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 2rem;
+        }
+        
+        .pdf-details-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .pdf-details-info p {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .pdf-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .download-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .download-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Hidden by default */
+        #loginPage, #signupPage, #forgotPasswordPage, #mainApp {
+            display: none;
+        }
+        
+        /* Show login page by default */
+        #loginPage {
+            display: flex;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="auth-container">
+        <div class="auth-image">
+            <div>
+                <h1>ReadLore</h1>
+                <p>Your personal PDF library. Discover, organize, and enjoy your reading materials all in one place.</p>
+            </div>
+        </div>
+        <div class="auth-form">
+            <h2>Log In</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-btn">Log In</button>
+                <div class="auth-links">
+                    <a href="#" id="forgotPasswordLink">Forgot password?</a>
+                    <a href="#" id="signupLink">Create account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sign Up Page -->
+    <div id="signupPage" class="auth-container">
+        <div class="auth-image">
+            <div>
+                <h1>ReadLore</h1>
+                <p>Your personal PDF library. Discover, organize, and enjoy your reading materials all in one place.</p>
+            </div>
+        </div>
+        <div class="auth-form">
+            <h2>Create Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="auth-btn">Create Account</button>
+                <div class="auth-links">
+                    <a href="#" id="loginLink">Already have an account? Log in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Page -->
+    <div id="forgotPasswordPage" class="auth-container">
+        <div class="auth-image">
+            <div>
+                <h1>ReadLore</h1>
+                <p>Your personal PDF library. Discover, organize, and enjoy your reading materials all in one place.</p>
+            </div>
+        </div>
+        <div class="auth-form">
+            <h2>Reset Password</h2>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">Email</label>
+                    <input type="email" id="resetEmail" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="auth-btn">Send Reset Link</button>
+                <div class="auth-links">
+                    <a href="#" id="backToLoginLink">Back to login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Interface -->
+    <div id="mainApp" class="app-container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-reader" style="font-size: 24px; color: var(--dark-green);"></i>
+                <h1>ReadLore</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+                <li><a href="#"><i class="fas fa-bookmark"></i> Library</a></li>
+                <li><a href="#"><i class="fas fa-plus-square"></i> Add PDF</a></li>
+                <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
+                <li><a href="#"><i class="fas fa-history"></i> Recent</a></li>
+            </ul>
+            <div style="margin-top: auto;">
+                <ul class="nav-links">
+                    <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search" style="color: #777;"></i>
+                    <input type="text" placeholder="Search for PDFs, authors, categories...">
+                </div>
+                <div class="user-profile">
+                    <img src="/api/placeholder/40/40" alt="User Profile">
+                    <span>John Doe</span>
+                </div>
+            </div>
+
+            <h2 class="section-title">Recently Read</h2>
+            <div class="pdf-grid">
+                <div class="pdf-card" data-id="1">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Design Patterns</h4>
+                        <p class="pdf-author">Gang of Four</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="2">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Clean Code</h4>
+                        <p class="pdf-author">Robert C. Martin</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="3">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">The Pragmatic Programmer</h4>
+                        <p class="pdf-author">Andy Hunt & Dave Thomas</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="4">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Algorithms</h4>
+                        <p class="pdf-author">Robert Sedgewick</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="5">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">The Art of Computer Programming</h4>
+                        <p class="pdf-author">Donald Knuth</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Recommended For You</h2>
+            <div class="pdf-grid">
+                <div class="pdf-card" data-id="6">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Refactoring</h4>
+                        <p class="pdf-author">Martin Fowler</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="7">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">JavaScript: The Good Parts</h4>
+                        <p class="pdf-author">Douglas Crockford</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="8">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Eloquent JavaScript</h4>
+                        <p class="pdf-author">Marijn Haverbeke</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="9">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">You Don't Know JS</h4>
+                        <p class="pdf-author">Kyle Simpson</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="10">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Python Crash Course</h4>
+                        <p class="pdf-author">Eric Matthes</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Popular Non-Fiction</h2>
+            <div class="pdf-grid">
+                <div class="pdf-card" data-id="11">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Sapiens</h4>
+                        <p class="pdf-author">Yuval Noah Harari</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="12">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Thinking, Fast and Slow</h4>
+                        <p class="pdf-author">Daniel Kahneman</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="13">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Atomic Habits</h4>
+                        <p class="pdf-author">James Clear</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="14">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">The Power of Habit</h4>
+                        <p class="pdf-author">Charles Duhigg</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="15">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Educated</h4>
+                        <p class="pdf-author">Tara Westover</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="player">
+            <div class="current-pdf">
+                <img src="/api/placeholder/60/60" alt="Current PDF">
+                <div class="pdf-details">
+                    <h4>Clean Code</h4>
+                    <p>Robert C. Martin</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn main"><i class="fas fa-play"></i></button>
+                <button class="control-btn"><i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="progress-container">
+                <span class="time">2:45</span>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <span class="time">7:12</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for PDF Preview -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>PDF Details</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pdf-details-container">
+                    <img src="/api/placeholder/150/200" alt="PDF Cover" id="modalPdfCover">
+                    <div class="pdf-details-info">
+                        <h4 id="modalPdfTitle">Clean Code</h4>
+                        <p id="modalPdfAuthor">Author: Robert C. Martin</p>
+                        <p>Pages: 464</p>
+                        <p>Format: PDF</p>
+                        <p>Published: 2008</p>
+                        <p>Rating: ★★★★★ (4.8/5)</p>
+                        <button class="download-btn"><i class="fas fa-download"></i> Download PDF</button>
+                    </div>
+                </div>
+                <div class="pdf-description">
+                    <h4>About this book</h4>
+                    <p>Even bad code can function. But if code isn't clean, it can bring a development organization to its knees. Every year, countless hours and significant resources are lost because of poorly written code. But it doesn't have to be that way.</p>
+                    <p>Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship. Martin has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code "on the fly" into a book that will instill within you the values of a software craftsman and make you a better programmer—but only if you work at it.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample PDF data
+        const pdfData = [
+            { id: 1, title: "Design Patterns", author: "Gang of Four", pages: 416, year: 1994, description: "A book on software design patterns." },
+            { id: 2, title: "Clean Code", author: "Robert C. Martin", pages: 464, year: 2008, description: "A handbook of agile software craftsmanship." },
+            { id: 3, title: "The Pragmatic Programmer", author: "Andy Hunt & Dave Thomas", pages: 352, year: 1999, description: "From journeyman to master." },
+            { id: 4, title: "Algorithms", author: "Robert Sedgewick", pages: 976, year: 2011, description: "A comprehensive guide to algorithms." },
+            { id: 5, title: "The Art of Computer Programming", author: "Donald Knuth", pages: 672, year: 1968, description: "A comprehensive monograph." },
+            { id: 6, title: "Refactoring", author: "Martin Fowler", pages: 455, year: 1999, description: "Improving the design of existing code." },
+            { id: 7, title: "JavaScript: The Good Parts", author: "Douglas Crockford", pages: 176, year: 2008, description: "Unearthing the excellence in JavaScript." },
+            { id: 8, title: "Eloquent JavaScript", author: "Marijn Haverbeke", pages: 472, year: 2014, description: "A modern introduction to programming." },
+            { id: 9, title: "You Don't Know JS", author: "Kyle Simpson", pages: 278, year: 2014, description: "A book series on JavaScript." },
+            { id: 10, title: "Python Crash Course", author: "Eric Matthes", pages: 544, year: 2015, description: "A fast-paced introduction to programming." },
+            { id: 11, title: "Sapiens", author: "Yuval Noah Harari", pages: 443, year: 2011, description: "A brief history of humankind." },
+            { id: 12, title: "Thinking, Fast and Slow", author: "Daniel Kahneman", pages: 512, year: 2011, description: "A groundbreaking tour of the mind." },
+            { id: 13, title: "Atomic Habits", author: "James Clear", pages: 320, year: 2018, description: "An easy & proven way to build good habits & break bad ones." },
+            { id: 14, title: "The Power of Habit", author: "Charles Duhigg", pages: 371, year: 2012, description: "Why we do what we do in life and business." },
+            { id: 15, title: "Educated", author: "Tara Westover", pages: 334, year: 2018, description: "A memoir that tells the story of a person who grows up in a strict and abusive household." },
+        ];
+
+        // Function to show the login page  
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('forgotPasswordPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+        // Function to show the signup page 
+        function showSignupPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'flex';
+            document.getElementById('forgotPasswordPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+        // Function to show the forgot password page    
+        function showForgotPasswordPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('forgotPasswordPage').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+        // Function to show the main app interface
+        function showMainApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('forgotPasswordPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'flex';
+        }
+        // Function to show the PDF modal
+        function showPdfModal(pdf) {
+            document.getElementById('pdfModal').style.display = 'flex';
+            document.getElementById('modalPdfTitle').innerText = pdf.title;
+            document.getElementById('modalPdfAuthor').innerText = `Author: ${pdf.author}`;
+            document.getElementById('modalPdfCover').src = `/api/placeholder/150/200`;
+        }
+        // Function to hide the PDF modal
+        function hidePdfModal() {
+            document.getElementById('pdfModal').style.display = 'none';
+        }
+        // Event listeners for navigation links
+        document.getElementById('signupLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSignupPage();
+        });
+        document.getElementById('loginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showForgotPasswordPage();
+        });
+        document.getElementById('backToLoginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+        document.querySelector('.close-btn').addEventListener('click', hidePdfModal);
+        document.getElementById('pdfModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('pdfModal')) {
+                hidePdfModal();
+            }
+        });
+        // Event listeners for PDF cards
+        const activePdfCards = document.querySelectorAll('.pdf-card');
+        activePdfCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const pdfId = card.getAttribute('data-id');
+                const pdf = pdfData.find(p => p.id == pdfId);
+                showPdfModal(pdf);
+            });
+        });
+        // Event listeners for form submissions 
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle login logic here
+            showMainApp();
+        });
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle signup logic here
+            showMainApp();
+        });
+        document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle password reset logic here
+            showLoginPage();
+        });
+        // Show the login page by default   
+        showLoginPage();
+    </script>
+</body>
+</html>
+
+<!-- This is a simple web application that allows users to log in, sign up, and manage their PDF library. It includes a login page, signup page, forgot password page, and a main app interface with a sidebar and PDF grid. The app uses HTML, CSS, and JavaScript for functionality and styling. The PDF modal displays detailed information about selected PDFs. -->
+<!-- The app is designed to be responsive and user-friendly, with a clean and modern design. The PDF data is simulated for demonstration purposes. The app includes event listeners for navigation links, form submissions, and PDF card clicks to enhance user experience. -->

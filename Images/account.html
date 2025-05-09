@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadLore - User Profile</title>
+    <link rel="shortcut icon" href="Images/rl_icon-removebg.png" type="image/x-icon">
+    <style>
+        :root {
+            --dark-green: #2c614f;
+            --light-green: #6ab29a;
+            --dark-blue: #1e3d59;
+            --light-blue: #5e89b8;
+            --bg-color: #f5f5f7;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        /* Main App Interface */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 240px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(106, 178, 154, 0.2);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            width: 50%;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 0.5rem;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-blue);
+        }
+        
+        /* Profile specific styles */
+        .profile-header {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 2rem;
+            object-fit: cover;
+            border: 4px solid var(--light-green);
+        }
+        
+        .profile-info h2 {
+            font-size: 2rem;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-info p {
+            color: #777;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .edit-profile-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: auto;
+        }
+        
+        .edit-profile-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .profile-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .profile-section {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-section h3 {
+            font-size: 1.3rem;
+            color: var(--dark-blue);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .reading-history {
+            list-style: none;
+        }
+        
+        .reading-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .reading-item:last-child {
+            border-bottom: none;
+        }
+        
+        .reading-cover {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 1rem;
+        }
+        
+        .reading-info {
+            flex: 1;
+        }
+        
+        .reading-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .reading-author {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 0.3rem;
+        }
+        
+        .reading-progress {
+            font-size: 0.8rem;
+            color: var(--dark-green);
+        }
+        
+        .reading-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .preferences-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--light-blue);
+            outline: none;
+        }
+        
+        .save-preferences-btn {
+            background-color: var(--dark-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            grid-column: span 2;
+        }
+        
+        .save-preferences-btn:hover {
+            background-color: var(--light-blue);
+        }
+        
+        .interests-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .interest-tag {
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .interest-tag i {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .interest-tag i:hover {
+            opacity: 1;
+        }
+        
+        .add-interest {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .add-interest input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .add-interest input:focus {
+            border-color: var(--light-blue);
+            outline: none;
+        }
+        
+        .add-interest button {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-interest button:hover {
+            background-color: var(--light-green);
+        }
+        
+        /* Modal for Edit Profile */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            width: 80%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            color: var(--dark-blue);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .profile-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .profile-image-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            grid-column: span 2;
+        }
+        
+        .profile-image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid var(--light-green);
+        }
+        
+        .upload-btn {
+            background-color: var(--dark-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background-color: var(--light-blue);
+        }
+        
+        .update-profile-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            grid-column: span 2;
+        }
+        
+        .update-profile-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .current-pdf {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .current-pdf img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 5px;
+        }
+        
+        .pdf-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .pdf-details p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0 0.8rem;
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            transition: color 0.3s;
+        }
+        
+        .control-btn:hover {
+            color: var(--light-blue);
+        }
+        
+        .control-btn.main {
+            width: 40px;
+            height: 40px;
+            background-color: var(--dark-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1.5rem;
+        }
+        
+        .progress-container {
+            flex: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--light-green);
+            width: 30%;
+        }
+        
+        .time {
+            font-size: 0.8rem;
+            color: #777;
+            margin: 0 0.8rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Main App Interface -->
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-reader" style="font-size: 24px; color: var(--dark-green);"></i>
+                <h1>ReadLore</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+                <li><a href="#"><i class="fas fa-bookmark"></i> Library</a></li>
+                <li><a href="#"><i class="fas fa-plus-square"></i> Add PDF</a></li>
+                <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
+                <li><a href="#"><i class="fas fa-history"></i> Recent</a></li>
+                <li><a href="#" class="active"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+            <div style="margin-top: auto;">
+                <ul class="nav-links">
+                    <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search" style="color: #777;"></i>
+                    <input type="text" placeholder="Search for PDFs, authors, categories...">
+                </div>
+                <div class="user-profile">
+                    <img src="Images/person.jpg" alt="User Profile">
+                    <span>Peter Maina. <br>2025 </span>
+                </div>
+            </div>
+
+            <div class="profile-header">
+                <img src="Images/person.jpg" alt="Profile Image" class="profile-image">
+                <div class="profile-info">
+                    <h2>Peter Maina</h2>
+                    <p>peter.maina@example.com</p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">27</div>
+                            <div class="stat-label">Books Read</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">14</div>
+                            <div class="stat-label">Favorites</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Currently Reading</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-profile-btn" id="editProfileBtn">Edit Profile</button>
+            </div>
+
+            <div class="profile-content">
+                <div class="main-profile-content">
+                    <div class="profile-section">
+                        <h3>Reading History</h3>
+                        <ul class="reading-history">
+                            <li class="reading-item">
+                                <img src="Images/Algorithms.jpeg" alt="Book Cover" class="reading-cover">
+                                <div class="reading-info">
+                                    <div class="reading-title">Clean Code</div>
+                                    <div class="reading-author">Robert C. Martin</div>
+                                    <div class="reading-progress">Completed</div>
+                                </div>
+                                <div class="reading-date">May 1, 2025</div>
+                            </li>
+                            <li class="reading-item">
+                                <img src="Images/The Pragmatic Programmer.jpeg" alt="Book Cover" class="reading-cover">
+                                <div class="reading-info">
+                                    <div class="reading-title">The Pragmatic Programmer</div>
+                                    <div class="reading-author">Andy Hunt & Dave Thomas</div>
+                                    <div class="reading-progress">38% Completed</div>
+                                </div>
+                                <div class="reading-date">Apr 24, 2025</div>
+                            </li>
+                            <li class="reading-item">
+                                <img src="Images/JavaScript The Good Parts.jpeg" alt="Book Cover" class="reading-cover">
+                                <div class="reading-info">
+                                    <div class="reading-title">JavaScript: The Good Parts</div>
+                                    <div class="reading-author">Douglas Crockford</div>
+                                    <div class="reading-progress">72% Completed</div>
+                                </div>
+                                <div class="reading-date">Apr 18, 2025</div>
+                            </li>
+                            <li class="reading-item">
+                                <img src="Images/You dont know Js.jpeg" alt="Book Cover" class="reading-cover">
+                                <div class="reading-info">
+                                    <div class="reading-title">You Don't Know JS</div>
+                                    <div class="reading-author">Kyle Simpson</div>
+                                    <div class="reading-progress">Completed</div>
+                                </div>
+                                <div class="reading-date">Apr 10, 2025</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3>Reading Stats</h3>
+                        <canvas id="readingChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="sidebar-profile-content">
+                    <div class="profile-section">
+                        <h3>Reading Preferences</h3>
+                        <form class="preferences-form">
+                            <div class="form-group">
+                                <label for="fontsize">Font Size</label>
+                                <select id="fontsize">
+                                    <option value="small">Small</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="large">Large</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="theme">App Theme</label>
+                                <select id="theme">
+                                    <option value="light" selected>Light</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="sepia">Sepia</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="save-preferences-btn">Save Preferences</button>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3>My Interests</h3>
+                        <div class="interests-cloud">
+                            <div class="interest-tag">
+                                Programming <i class="fas fa-times"></i>
+                            </div>
+                            <div class="interest-tag">
+                                Web Development <i class="fas fa-times"></i>
+                            </div>
+                            <div class="interest-tag">
+                                JavaScript <i class="fas fa-times"></i>
+                            </div>
+                            <div class="interest-tag">
+                                Computer Science <i class="fas fa-times"></i>
+                            </div>
+                            <div class="interest-tag">
+                                Algorithms <i class="fas fa-times"></i>
+                            </div>
+                            <div class="interest-tag">
+                                Software Engineering <i class="fas fa-times"></i>
+                            </div>
+                        </div>
+                        <div class="add-interest">
+                            <input type="text" placeholder="Add new interest">
+                            <button type="button"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="player">
+            <div class="current-pdf">
+                <img src="Images/Algorithms.jpeg" alt="Current PDF">
+                <div class="pdf-details">
+                    <h4>Clean Code</h4>
+                    <p>Robert C. Martin</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn main"><i class="fas fa-play"></i></button>
+                <button class="control-btn"><i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="progress-container">
+                <span class="time">2:45</span>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <span class="time">7:12</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Edit Profile -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="profile-form" id="profileForm">
+                    <div class="profile-image-upload">
+                        <img src="Images/person.jpg" alt="Profile Image" class="profile-image-preview">
+                        <button type="button" class="upload-btn">Change Photo</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" value="Peter" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" value="Maina" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" value="peter.maina@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" value="+1 123-456-7890">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" value="New York, USA">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" rows="4" style="width: 100%; padding: 0.8rem 1rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical;">Software developer with a passion for clean code and efficient algorithms. Avid reader of programming books and tech blogs.</textarea>
+                    </div>
+                    <button type="submit" class="update-profile-btn">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Function to show the login page
+        function showLoginPage() {
+            window.location.href = 'index.html';
+        }
+
+        // Function to show the edit profile modal
+        function showEditProfileModal() {
+            document.getElementById('editProfileModal').style.display = 'flex';
+        }
+
+        // Function to hide the edit profile modal
+        function hideEditProfileModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        // Event listeners
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+
+        document.getElementById('editProfileBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showEditProfileModal();
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', hideEditProfileModal);
+        
+        document.getElementById('editProfileModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('editProfileModal')) {
+                hideEditProfileModal();
+            }
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle profile update logic here
+            hideEditProfileModal();
+        });
+
+        // Creating a chart for reading stats
+        const ctx = document.getElementById('readingChart').getContext('2d');
+        const readingChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Books Read',
+                    data: [3, 5, 4, 7, 8],
+                    backgroundColor: 'rgba(94, 137, 184, 0.6)',
+                    borderColor: 'rgba(94, 137, 184, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // Adding interest tag functionality
+        const addInterestBtn = document.querySelector('.add-interest button');
+        const addInterestInput = document.querySelector('.add-interest input');
+        const interestsCloud = document.querySelector('.interests-cloud');
+        addInterestBtn.addEventListener('click', () => {
+            const interest = addInterestInput.value.trim();
+            if (interest) {
+                const interestTag = document.createElement('div');
+                interestTag.classList.add('interest-tag');
+                interestTag.innerHTML = `${interest} <i class="fas fa-times"></i>`;
+                interestsCloud.appendChild(interestTag);
+                addInterestInput.value = '';
+
+                // Add event listener to remove the tag
+                interestTag.querySelector('i').addEventListener('click', () => {
+                    interestsCloud.removeChild(interestTag);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

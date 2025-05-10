@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadLore - Categories</title>
+    <link rel="shortcut icon" href="Images/rl_icon-removebg.png" type="image/x-icon">
+    <style>
+        :root {
+            --dark-green: #2c614f;
+            --light-green: #6ab29a;
+            --dark-blue: #1e3d59;
+            --light-blue: #5e89b8;
+            --bg-color: #f5f5f7;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 240px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(106, 178, 154, 0.2);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            width: 50%;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 0.5rem;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Category icons scrollable bar */
+        .categories-scroll {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: var(--light-green) transparent;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .categories-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .categories-scroll::-webkit-scrollbar-thumb {
+            background-color: var(--light-green);
+            border-radius: 10px;
+        }
+        
+        .categories-container {
+            display: inline-flex;
+            padding: 0.5rem 0;
+        }
+        
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            box-shadow: var(--shadow);
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+        }
+        
+        .category-icon.active {
+            background-color: var(--dark-green);
+            color: var(--white);
+        }
+        
+        .category-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-title {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+        }
+        
+        .filter-options {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            background-color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-left: 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--light-green);
+            color: var(--white);
+        }
+        
+        .filter-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        /* PDF Grid */
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .pdf-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .pdf-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pdf-cover {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .pdf-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .pdf-info {
+            padding: 1rem;
+        }
+        
+        .pdf-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .pdf-author {
+            font-size: 0.9rem;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Modal for PDF Preview */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            width: 80%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            color: var(--dark-blue);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .pdf-details-container {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .pdf-details-container img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 2rem;
+        }
+        
+        .pdf-details-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .pdf-details-info p {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .pdf-description {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .download-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .download-btn i {
+            margin-right: 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-reader" style="font-size: 24px; color: var(--dark-green);"></i>
+                <h1>ReadLore</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" class="active"><i class="fas fa-th-large"></i> Categories</a></li>
+                <li><a href="#"><i class="fas fa-bookmark"></i> Library</a></li>
+                <li><a href="#"><i class="fas fa-plus-square"></i> Add PDF</a></li>
+                <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
+                <li><a href="#"><i class="fas fa-history"></i> Recent</a></li>
+            </ul>
+            <div style="margin-top: auto;">
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search" style="color: #777;"></i>
+                    <input type="text" placeholder="Search for PDFs, authors, categories...">
+                </div>
+                <div class="user-profile">
+                    <img src="Images/person.jpg" alt="User Profile">
+                    <span>Peter Maina. <br>2025 </span>
+                </div>
+            </div>
+
+            <!-- Category Icons (like YouTube) -->
+            <div class="categories-scroll">
+                <div class="categories-container">
+                    <div class="category-item">
+                        <div class="category-icon active">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <span class="category-name">All</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <span class="category-name">Programming</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <span class="category-name">Science</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <span class="category-name">Mathematics</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span class="category-name">Psychology</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <span class="category-name">History</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <span class="category-name">Business</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <span class="category-name">Art & Design</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <span class="category-name">Literature</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <span class="category-name">Health</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <span class="category-name">Geography</span>
+                    </div>
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <span class="category-name">Education</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and current category -->
+            <div class="filter-bar">
+                <h2 class="filter-title">Programming</h2>
+                <div class="filter-options">
+                    <button class="filter-btn">
+                        <i class="fas fa-sort"></i> Sort by
+                    </button>
+                    <button class="filter-btn">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Grid for Programming Category -->
+            <div class="pdf-grid">
+                <div class="pdf-card" data-id="1">
+                    <div class="pdf-cover">
+                        <img src="Images/Algorithms.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Design Patterns</h4>
+                        <p class="pdf-author">Gang of Four</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="2">
+                    <div class="pdf-cover">
+                        <img src="Images/Algorithms.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Clean Code</h4>
+                        <p class="pdf-author">Robert C. Martin</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="3">
+                    <div class="pdf-cover">
+                        <img src="Images/The Pragmatic Programmer.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">The Pragmatic Programmer</h4>
+                        <p class="pdf-author">Andy Hunt & Dave Thomas</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="4">
+                    <div class="pdf-cover">
+                        <img src="Images/Algorithms.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Algorithms</h4>
+                        <p class="pdf-author">Robert Sedgewick</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="5">
+                    <div class="pdf-cover">
+                        <img src="Images/The Art of Computer Programming.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">The Art of Computer Programming</h4>
+                        <p class="pdf-author">Donald Knuth</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="6">
+                    <div class="pdf-cover">
+                        <img src="Images/Refactoring.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Refactoring</h4>
+                        <p class="pdf-author">Martin Fowler</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="7">
+                    <div class="pdf-cover">
+                        <img src="Images/JavaScript The Good Parts.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">JavaScript: The Good Parts</h4>
+                        <p class="pdf-author">Douglas Crockford</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="8">
+                    <div class="pdf-cover">
+                        <img src="Images/Eloquent JavaScript.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Eloquent JavaScript</h4>
+                        <p class="pdf-author">Marijn Haverbeke</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="9">
+                    <div class="pdf-cover">
+                        <img src="Images/You dont know Js.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">You Don't Know JS</h4>
+                        <p class="pdf-author">Kyle Simpson</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="10">
+                    <div class="pdf-cover">
+                        <img src="Images/Python crash course.jpeg" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Python Crash Course</h4>
+                        <p class="pdf-author">Eric Matthes</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="11">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Head First Java</h4>
+                        <p class="pdf-author">Kathy Sierra & Bert Bates</p>
+                    </div>
+                </div>
+                <div class="pdf-card" data-id="12">
+                    <div class="pdf-cover">
+                        <img src="/api/placeholder/180/180" alt="PDF Cover">
+                    </div>
+                    <div class="pdf-info">
+                        <h4 class="pdf-title">Programming in C#</h4>
+                        <p class="pdf-author">Ian Griffiths</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for PDF Preview -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>PDF Details</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pdf-details-container">
+                    <img src="/api/placeholder/150/200" alt="PDF Cover" id="modalPdfCover">
+                    <div class="pdf-details-info">
+                        <h4 id="modalPdfTitle">Clean Code</h4>
+                        <p id="modalPdfAuthor">Author: Robert C. Martin</p>
+                        <p>Pages: 464</p>
+                        <p>Format: PDF</p>
+                        <p>Published: 2008</p>
+                        <p>Rating: ★★★★★ (4.8/5)</p>
+                        <button class="download-btn"><i class="fas fa-download"></i> Download PDF</button>
+                    </div>
+                </div>
+                <div class="pdf-description">
+                    <h4>About this book</h4>
+                    <p>Even bad code can function. But if code isn't clean, it can bring a development organization to its knees. Every year, countless hours and significant resources are lost because of poorly written code. But it doesn't have to be that way.</p>
+                    <p>Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship. Martin has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code "on the fly" into a book that will instill within you the values of a software craftsman and make you a better programmer—but only if you work at it.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample PDF data
+        const pdfData = [
+            { id: 1, title: "Design Patterns", author: "Gang of Four", pages: 416, year: 1994, description: "A book on software design patterns." },
+            { id: 2, title: "Clean Code", author: "Robert C. Martin", pages: 464, year: 2008, description: "A handbook of agile software craftsmanship." },
+            { id: 3, title: "The Pragmatic Programmer", author: "Andy Hunt & Dave Thomas", pages: 352, year: 1999, description: "From journeyman to master." },
+            { id: 4, title: "Algorithms", author: "Robert Sedgewick", pages: 976, year: 2011, description: "A comprehensive guide to algorithms." },
+            { id: 5, title: "The Art of Computer Programming", author: "Donald Knuth", pages: 672, year: 1968, description: "A comprehensive monograph." },
+            { id: 6, title: "Refactoring", author: "Martin Fowler", pages: 455, year: 1999, description: "Improving the design of existing code." },
+            { id: 7, title: "JavaScript: The Good Parts", author: "Douglas Crockford", pages: 176, year: 2008, description: "Unearthing the excellence in JavaScript." },
+            { id: 8, title: "Eloquent JavaScript", author: "Marijn Haverbeke", pages: 472, year: 2014, description: "A modern introduction to programming." },
+            { id: 9, title: "You Don't Know JS", author: "Kyle Simpson", pages: 278, year: 2014, description: "A book series on JavaScript." },
+            { id: 10, title: "Python Crash Course", author: "Eric Matthes", pages: 544, year: 2015, description: "A fast-paced introduction to programming." },
+            { id: 11, title: "Head First Java", author: "Kathy Sierra & Bert Bates", pages: 720, year: 2005, description: "A brain-friendly guide to Java." },
+            { id: 12, title: "Programming in C#", author: "Ian Griffiths", pages: 480, year: 2020, description: "Modern C# programming techniques." },
+        ];
+
+        // Function to show the PDF modal
+        function showPdfModal(pdf) {
+            document.getElementById('pdfModal').style.display = 'flex';
+            document.getElementById('modalPdfTitle').innerText = pdf.title;
+            document.getElementById('modalPdfAuthor').innerText = `Author: ${pdf.author}`;
+            document.getElementById('modalPdfCover').src = `/api/placeholder/150/200`;
+        }
+        
+        // Function to hide the PDF modal
+        function hidePdfModal() {
+            document.getElementById('pdfModal').style.display = 'none';
+        }
+
+        // Event listeners for PDF cards
+        const activePdfCards = document.querySelectorAll('.pdf-card');
+        activePdfCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const pdfId = card.getAttribute('data-id');
+                const pdf = pdfData.find(p => p.id == pdfId);
+                showPdfModal(pdf);
+            });
+        });
+
+        // Event listener for modal close button
+        document.querySelector('.close-btn').addEventListener('click', hidePdfModal);
+        
+        // Event listener for clicking outside the modal
+        document.getElementById('pdfModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('pdfModal')) {
+                hidePdfModal();
+            }
+        });
+
+        // Event listeners for category icons
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove active class from all category icons
+                document.querySelectorAll('.category-icon').forEach(icon => {
+                    icon.classList.remove('active');
+                });
+                
+                // Add active class to clicked category icon
+                item.querySelector('.category-icon').classList.add('active');
+                
+                // Update the filter title based on clicked category
+                const categoryName = item.querySelector('.category-name').textContent;
+                document.querySelector('.filter-title').textContent = categoryName;
+                
+                // Here you would normally fetch and display PDFs based on the selected category
+                // For now, we'll just keep the existing PDFs
+            });
+        });
+    </script>
+</body>
+</html>

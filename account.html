@@ -906,6 +906,13 @@
             }
         });
 
+        // Adding event listener to the logout link
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            // Logic to handle logout
+            showLoginPage();
+        });
+
         // Adding interest tag functionality
         const addInterestBtn = document.querySelector('.add-interest button');
         const addInterestInput = document.querySelector('.add-interest input');

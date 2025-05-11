@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadLore - Favorites</title>
+    <link rel="shortcut icon" href="Images/rl_icon-removebg.png" type="image/x-icon">
+    <style>
+        :root {
+            --dark-green: #2c614f;
+            --light-green: #6ab29a;
+            --dark-blue: #1e3d59;
+            --light-blue: #5e89b8;
+            --bg-color: #f5f5f7;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        /* Main App Interface */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 240px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--dark-green);
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(106, 178, 154, 0.2);
+            color: var(--dark-green);
+        }
+        
+        .nav-links a i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            width: 50%;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 0.5rem;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-blue);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .section-title .views {
+            display: flex;
+            align-items: center;
+        }
+        
+        .view-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #777;
+            margin-left: 0.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .view-btn.active {
+            color: var(--dark-green);
+        }
+        
+        .player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .current-pdf {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .current-pdf img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 5px;
+        }
+        
+        .pdf-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .pdf-details p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+        }
+        
+        .control-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0 0.8rem;
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            transition: color 0.3s;
+        }
+        
+        .control-btn:hover {
+            color: var(--light-blue);
+        }
+        
+        .control-btn.main {
+            width: 40px;
+            height: 40px;
+            background-color: var(--dark-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1.5rem;
+        }
+        
+        .progress-container {
+            flex: 2;
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--light-green);
+            width: 30%;
+        }
+        
+        .time {
+            font-size: 0.8rem;
+            color: #777;
+            margin: 0 0.8rem;
+        }
+        
+        /* Favorites specific styles */
+        .favorites-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .favorites-header {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .favorites-header h2 {
+            font-size: 2rem;
+            color: var(--dark-blue);
+        }
+        
+        .favorites-stats {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .filters {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-label {
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+        
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .filter-select:focus {
+            border-color: var(--light-blue);
+            outline: none;
+        }
+        
+        .grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .card-view {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: var(--shadow);
+        }
+        
+        .card-view:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-view img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+        
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .card-author {
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+            opacity: 0.9;
+        }
+        
+        .card-category {
+            font-size: 0.7rem;
+            background-color: var(--light-green);
+            color: var(--dark-blue);
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .card-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .card-btn {
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+            transition: all 0.3s;
+        }
+        
+        .card-btn:hover {
+            background-color: var(--light-green);
+            color: white;
+        }
+        
+        /* List view styles */
+        .list-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .list-item-img {
+            width: 80px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 1.5rem;
+        }
+        
+        .list-item-info {
+            flex: 1;
+        }
+        
+        .list-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .list-item-author {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+        
+        .list-item-description {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            color: #555;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .list-item-meta {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #777;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+        }
+        
+        .meta-item i {
+            margin-right: 0.3rem;
+            color: var(--light-green);
+        }
+        
+        .list-item-category {
+            font-size: 0.8rem;
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+        }
+        
+        .list-item-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #777;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .action-btn:hover {
+            color: var(--dark-green);
+        }
+        
+        .action-btn.favorite {
+            color: #ff6b6b;
+        }
+        
+        /* Collections section */
+        .collections-section {
+            margin-top: 2rem;
+        }
+        
+        .collections-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .collection-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .collection-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .collection-preview {
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(106, 178, 154, 0.1);
+            position: relative;
+        }
+        
+        .collection-cover {
+            width: 70px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+            position: absolute;
+        }
+        
+        .collection-cover:nth-child(1) {
+            transform: rotate(-10deg) translateX(-40px) translateY(10px);
+        }
+        
+        .collection-cover:nth-child(2) {
+            z-index: 2;
+        }
+        
+        .collection-cover:nth-child(3) {
+            transform: rotate(10deg) translateX(40px) translateY(10px);
+        }
+        
+        .collection-info {
+            padding: 1.5rem;
+        }
+        
+        .collection-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .collection-count {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 1rem;
+        }
+        
+        .collection-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .collection-tag {
+            font-size: 0.8rem;
+            background-color: rgba(94, 137, 184, 0.1);
+            color: var(--dark-blue);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+        }
+        
+        .collection-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .collection-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .collection-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .collection-more {
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        /* Create collection modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header h3 {
+            color: var(--dark-blue);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--light-blue);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        /* Tags input */
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 100px;
+        }
+        
+        .tag {
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tag i {
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .tags-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            min-width: 100px;
+        }
+        
+        /* Smart recommendations */
+        .recommendations-section {
+            margin-top: 2rem;
+        }
+        
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .recommendation-slider {
+            position: relative;
+        }
+        
+        .slider-container {
+            overflow-x: auto;
+            padding: 1rem 0;
+            scrollbar-width: none;
+        }
+        
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .slider-content {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .recommendation-card {
+            min-width: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-color: var(--white);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .recommendation-cover {
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .recommendation-info {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .recommendation-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+        
+        .recommendation-author {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-category {
+            font-size: 0.8rem;
+            background-color: rgba(106, 178, 154, 0.1);
+            color: var(--dark-green);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-reason {
+            font-size: 0.8rem;
+            color: #777;
+            font-style: italic;
+            margin-top: auto;
+        }
+        
+        .recommendation-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .recommend-btn {
+            background: none;
+            border: none;
+            color: var(--dark-blue);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        .recommend-btn:hover {
+            color: var(--light-blue);
+        }
+        
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 5;
+        }
+        
+        .arrow-left {
+            left: -20px;
+        }
+        
+        .arrow-right {
+            right: -20px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Main App Interface -->
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-reader" style="font-size: 24px; color: var(--dark-green);"></i>
+                <h1>ReadLore</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+                <li><a href="#"><i class="fas fa-bookmark"></i> Library</a></li>
+                <li><a href="pdf.html"><i class="fas fa-plus-square"></i> PDF</a></li>
+                <li><a href="#" class="active"><i class="fas fa-heart"></i> Favorites</a></li>
+                <li><a href="#"><i class="fas fa-history"></i> Recent</a></li>
+                <li><a href="account.html"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+            <div style="margin-top: auto;">
+                <ul class="nav-links">
+                    <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search" style="color: #777;"></i>
+                    <input type="text" placeholder="Search in favorites...">
+                </div>
+                <div class="user-profile">
+                    <img src="Images/person.jpg" alt="User Profile">
+                    <span>Peter Maina. <br>2025 </span>
+                </div>
+            </div>
+
+            <div class="favorites-container">
+                <div class="favorites-header">
+                    <h2>My Favorites</h2>
+                    <div class="favorites-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">14</div>
+                            <div class="stat-label">Favorites</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Collections</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">6</div>
+                            <div class="stat-label">Genres</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <div class="filter-label">Sort by:</div>
+                        <select class="filter-select" id="sort-select">
+                            <option value="date-added">Date Added</option>
+                            <option value="title">Title</option>
+                            <option value="author">Author</option>
+                            <option value="rating">Rating</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-label">Category:</div>
+                        <select class="filter-select" id="category-select">
+                            <option value="all">All Categories</option>
+                            <option value="programming">Programming</option>
+                            <option value="web-dev">Web Development</option>
+                            <option value="computer-science">Computer Science</option>
+                            <option value="software-eng">Software Engineering</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-label">Collections:</div>
+                        <select class="filter-select" id="collection-select">
+                            <option value="all">All Collections</option>
+                            <option value="must-read">Must Read</option>
+                            <option value="learning">Learning</option>
+                            <option value="reference">Reference</option>
+                            <option value="classics">Programming Classics</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section-title">
+                        <h3>Favorite Books</h3>
+                        <div class="views">
+                            <button class="view-btn active" id="grid-view-btn"><i class="fas fa-th-large"></i></button>
+                            <button class="view-btn" id="list-view-btn"><i class="fas fa-list"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="grid-view" id="favorites-grid">
+                        <!-- Grid items -->
+                        <div class="card-view">
+                            <img src="Images/Clean Code.jpeg" alt="Clean Code">
+                            <div class="card-info">
+                                <div class="card-title">Clean Code</div>
+                                <div class="card-author">Robert C. Martin</div>
+                                <div class="card-category">Programming</div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-btn"><i class="fas fa-heart"></i></button>
+                                <button class="card-btn"><i class="fas fa-folder-plus"></i></button>
+                                <button class="card-btn"><i class="fas fa-ellipsis-v"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-view">
+                            <img src="Images/The Pragmatic Programmer.jpeg" alt="The Pragmatic Programmer">

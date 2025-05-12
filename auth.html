@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadLore | auth </title>
+    <link rel="shortcut icon" href="Images/rl_icon-removebg.png" type="image/x-icon">
+    <style>
+        :root {
+            --dark-green: #2c614f;
+            --light-green: #6ab29a;
+            --dark-blue: #1e3d59;
+            --light-blue: #5e89b8;
+            --bg-color: #f5f5f7;
+            --text-color: #333;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .auth-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .auth-image {
+            flex: 1;
+            background: linear-gradient(135deg, var(--dark-green), var(--dark-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .auth-image h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .auth-image p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .auth-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .auth-form h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-blue);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--light-blue);
+            outline: none;
+        }
+        
+        .auth-btn {
+            background-color: var(--dark-green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        
+        .auth-btn:hover {
+            background-color: var(--light-green);
+        }
+        
+        .auth-links {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .auth-links a {
+            color: var(--dark-blue);
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+        
+        .auth-links a:hover {
+            color: var(--light-blue);
+            text-decoration: underline;
+        }
+        
+         /* Hidden by default */
+         #loginPage, #signupPage, #forgotPasswordPage, #mainApp {
+            display: none;
+        }
+        
+        /* Show login page by default */
+        #loginPage {
+            display: flex;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    
+ <!-- Login Page -->
+ <div id="loginPage" class="auth-container">
+    <div class="auth-image">
+        <div>
+            <h1>ReadLore</h1>
+            <p>Your personal PDF library. Discover, organize, and enjoy your reading materials all in one place.</p>
+        </div>
+    </div>
+    <div class="auth-form">
+        <h2>Log In</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="auth-btn">Log In</button>
+            <div class="auth-links">
+                <a href="#" id="forgotPasswordLink">Forgot password?</a>
+                <a href="#" id="signupLink">Create account</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Sign Up Page -->
+<div id="signupPage" class="auth-container">
+    <div class="auth-image">
+        <div>
+            <h1>ReadLore</h1>
+            <p>Your personal PDF library. Discover, organize, and enjoy your reading materials all in one place.</p>
+        </div>
+    </div>
+    <div class="auth-form">
+        <h2>Create Account</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit" class="auth-btn">Create Account</button>
+            <div class="auth-links">
+                <a href="#" id="loginLink">Already have an account? Log in</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Forgot Password Page -->
+<div id="forgotPasswordPage" class="auth-container">
+    <div class="auth-image">
+        <div>
+            <h1>ReadLore</h1>
+            <p>Your personal PDF library. Discover, organize, and enjoy your reading materials all in one place.</p>
+        </div>
+    </div>
+    <div class="auth-form">
+        <h2>Reset Password</h2>
+        <form id="forgotPasswordForm">
+            <div class="form-group">
+                <label for="resetEmail">Email</label>
+                <input type="email" id="resetEmail" placeholder="Enter your email" required>
+            </div>
+            <button type="submit" class="auth-btn">Send Reset Link</button>
+            <div class="auth-links">
+                <a href="#" id="backToLoginLink">Back to login</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+        // Function to show the login page  
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('forgotPasswordPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+        // Function to show the signup page 
+        function showSignupPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'flex';
+            document.getElementById('forgotPasswordPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+        // Function to show the forgot password page    
+        function showForgotPasswordPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('forgotPasswordPage').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+        }
+        // Function to show the main app interface
+        function showMainApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('forgotPasswordPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'flex';
+        }
+        // Function to show the PDF modal
+        function showPdfModal(pdf) {
+            document.getElementById('pdfModal').style.display = 'flex';
+            document.getElementById('modalPdfTitle').innerText = pdf.title;
+            document.getElementById('modalPdfAuthor').innerText = `Author: ${pdf.author}`;
+            document.getElementById('modalPdfCover').src = `/api/placeholder/150/200`;
+        }
+        // Function to hide the PDF modal
+        function hidePdfModal() {
+            document.getElementById('pdfModal').style.display = 'none';
+        }
+        // Event listeners for navigation links
+        document.getElementById('signupLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showSignupPage();
+        });
+        document.getElementById('loginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+        document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showForgotPasswordPage();
+        });
+        document.getElementById('backToLoginLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showLoginPage();
+        });
+        document.querySelector('.close-btn').addEventListener('click', hidePdfModal);
+        document.getElementById('pdfModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('pdfModal')) {
+                hidePdfModal();
+            }
+        });
+</script>
+
+</body>
+</html>

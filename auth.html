@@ -141,6 +141,33 @@
       display: flex;
     }
 
+    #terms, #privacy {
+      display: flex;
+      color: var(--dark-green);
+      align-items: center;
+    }
+    #terms input, #privacy input {
+      margin-right: 0.5rem;
+    }
+    #terms a, #privacy a {
+      color: var(--dark-blue);
+      text-decoration: none;
+    }
+    #terms a:hover, #privacy a:hover {
+      text-decoration: underline;
+    }
+    #forgotPasswordPage {
+      display: none;
+    }
+    #checkbox {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      color: var(--dark-blue);
+      margin-right: 0.5rem;
+    }
+
+
     #mainApp {
       display: none;
       flex-direction: column;
@@ -225,6 +252,18 @@
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" required />
       </div>
+      <div class="form-group">
+        <label for="terms">
+          <input type="checkbox" id="terms" required />
+          I agree to the <a href="t&c.html">Terms and Conditions</a>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="privacy">
+          <input type="checkbox" id="privacy" required />
+          I agree to the <a href="privacy.html">Privacy Policy</a>
+        </label>
+      </div>
       <button type="submit" class="auth-btn">Create Account</button>
       <div class="auth-links">
         <a href="#" id="loginLink">Already have an account? Log in</a>
@@ -282,6 +321,7 @@
       e.preventDefault();
       window.location.href = "index.html";
     });
+
   
     // Simulate forgot password
     document.getElementById("forgotPasswordForm").addEventListener("submit", function(e) {

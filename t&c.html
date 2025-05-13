@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ReadLore - Terms and Conditions</title>
+  <link rel="shortcut icon" href="Images/rl_icon-removebg.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --dark-green: #2c614f;
+      --light-green: #6ab29a;
+      --dark-blue: #1e3d59;
+      --light-blue: #5e89b8;
+      --bg-color: #f5f5f7;
+      --text-color: #333;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .app-container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: var(--white);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      color: var(--dark-green);
+      margin-left: 10px;
+    }
+
+    .nav-links {
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-bottom: 1rem;
+    }
+
+    .nav-links a {
+      display: flex;
+      align-items: center;
+      color: var(--text-color);
+      padding: 0.5rem;
+      font-weight: 500;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .nav-links a i {
+      margin-right: 10px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: rgba(106, 178, 154, 0.1);
+      color: var(--dark-green);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      height: 100vh;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      color: var(--dark-blue);
+      margin-bottom: 1.5rem;
+    }
+
+    .terms-container {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .terms-section {
+      margin-bottom: 2rem;
+    }
+
+    .terms-section h3 {
+      color: var(--dark-green);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .terms-section p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .terms-section ul, .terms-section ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .terms-section li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+
+    .last-updated {
+      font-style: italic;
+      color: #777;
+      margin-top: 2rem;
+    }
+
+    .agreement-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background-color: var(--dark-green);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      background-color: #e0e0e0;
+      color: var(--text-color);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    #logoutLink {
+      margin-top: auto;
+      color: var(--dark-blue);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-content">
+    <div class="top-bar">
+      <h1 class="section-title">Terms and Conditions</h1>
+      <div class="user-profile">
+        <img src="Images/person.jpg" alt="Profile">
+        <span>Peter Maina</span>
+      </div>
+    </div>
+
+    <div class="terms-container">
+      <div class="terms-section">
+        <p>Welcome to ReadLore! These Terms and Conditions govern your use of our platform, including our website, mobile applications, and all services offered by ReadLore. By accessing or using our services, you agree to be bound by these Terms. Please read them carefully.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>1. Acceptance of Terms</h3>
+        <p>By creating an account, accessing, or using ReadLore's services, you agree to be bound by these Terms and Conditions, our Privacy Policy, and any additional terms or policies referenced herein. If you do not agree with any of these terms, you are prohibited from using or accessing ReadLore.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>2. Service Description</h3>
+        <p>ReadLore is a digital content platform that provides:</p>
+        <ul>
+          <li>Access to audiobooks for streaming or download based on your subscription plan</li>
+          <li>PDF reading capabilities for uploaded documents</li>
+          <li>Features for organizing, bookmarking, and managing your digital reading materials</li>
+          <li>Personalized recommendations based on your reading habits</li>
+        </ul>
+        <p>We may modify, suspend, or discontinue any aspect of our services at any time, with or without notice.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>3. Account Registration</h3>
+        <p>To access certain features of our platform, you must create an account. You agree to provide accurate, current, and complete information during registration and to update such information to keep it accurate, current, and complete. You are responsible for safeguarding your password and for all activities that occur under your account. You agree to notify ReadLore immediately of any unauthorized use of your account.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>4. Subscription Plans and Payments</h3>
+        <p>ReadLore offers various subscription plans with different access levels and features:</p>
+        <ul>
+          <li><strong>Free Plan:</strong> Limited access to content and features with advertisements</li>
+          <li><strong>Basic Plan:</strong> Ad-free listening and reading with basic features</li>
+          <li><strong>Premium Plan:</strong> Full access to all content and features, including offline downloads</li>
+        </ul>
+        <p>By selecting a paid subscription plan, you agree to pay all fees in accordance with the billing terms. Subscription fees are billed in advance and are non-refundable. We may change subscription fees at any time, but with advance notice before changes apply to you.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>5. Content and Licensing</h3>
+        <p>ReadLore grants you a limited, non-exclusive, non-transferable license to access and use our services for personal, non-commercial purposes. This license does not include:</p>
+        <ul>
+          <li>Reselling or commercial use of our services</li>
+          <li>Distribution or public display of content</li>
+          <li>Modifying or creating derivative works</li>
+          <li>Any use not expressly authorized</li>
+        </ul>
+        <p>All audiobooks and other content provided through our service are owned by ReadLore or its licensors and are protected by copyright and other intellectual property laws.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>6. User-Uploaded Content</h3>
+        <p>ReadLore allows users to upload PDF documents for personal reading purposes. By uploading content, you:</p>
+        <ul>
+          <li>Represent that you have the legal right to upload and access such content</li>
+          <li>Grant ReadLore permission to store and display the content for your personal use</li>
+          <li>Understand that ReadLore does not claim ownership of your uploaded documents</li>
+          <li>Agree not to upload illegal, infringing, or prohibited content as defined in our Community Guidelines</li>
+        </ul>
+        <p>ReadLore reserves the right to remove any uploaded content that violates these terms without notice.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>7. Copyright and DMCA Policy</h3>
+        <p>ReadLore respects the intellectual property rights of others and expects users to do the same. We will respond to notices of alleged copyright infringement that comply with applicable law. If you believe that your content has been copied in a way that constitutes copyright infringement, please provide us with the following information:</p>
+        <ul>
+          <li>A physical or electronic signature of the copyright owner or a person authorized to act on their behalf</li>
+          <li>Identification of the copyrighted work claimed to have been infringed</li>
+          <li>Identification of the material that is claimed to be infringing or to be the subject of infringing activity</li>
+          <li>Your contact information, including your address, telephone number, and email address</li>
+          <li>A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law</li>
+          <li>A statement that the information in your notice is accurate and, under penalty of perjury, that you are the copyright owner or authorized to act on the copyright owner's behalf</li>
+        </ul>
+        <p>Notices should be sent to <a href="mailto:copyright@readlore.com">copyright@readlore.com</a>.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>8. Prohibited Activities</h3>
+        <p>When using ReadLore, you agree not to:</p>
+        <ul>
+          <li>Circumvent, disable, or interfere with security features of the service</li>
+          <li>Use the service for any illegal purpose or in violation of any laws</li>
+          <li>Share your account credentials or transfer your account to another person</li>
+          <li>Attempt to access, scrape, or download content using automated means</li>
+          <li>Use the platform to infringe or violate anyone else's rights</li>
+          <li>Upload malware or other malicious code</li>
+          <li>Interfere with or disrupt the integrity or performance of the service</li>
+        </ul>
+      </div>
+
+      <div class="terms-section">
+        <h3>9. Privacy Policy</h3>
+        <p>Your privacy is important to us. Our Privacy Policy, available at <a href="privacy.html">ReadLore Privacy Policy</a>, explains how we collect, use, and disclose information about you. By using our services, you consent to the collection and use of information as detailed in our Privacy Policy.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>10. Termination</h3>
+        <p>ReadLore may terminate or suspend your account and access to our services at any time, without prior notice or liability, for any reason, including if you breach these Terms. Upon termination, your right to use the service will immediately cease. All provisions of the Terms which by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>11. Disclaimers and Warranties</h3>
+        <p>THE SERVICE AND ALL CONTENT ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. READLORE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+        <p>ReadLore does not warrant that:</p>
+        <ul>
+          <li>The service will be uninterrupted or error-free</li>
+          <li>Defects will be corrected</li>
+          <li>The service or content are accurate, reliable, or complete</li>
+        </ul>
+      </div>
+
+      <div class="terms-section">
+        <h3>12. Limitation of Liability</h3>
+        <p>IN NO EVENT SHALL READLORE BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS, DATA, OR USE, ARISING OUT OF OR IN CONNECTION WITH THESE TERMS OR THE USE OR INABILITY TO USE THE SERVICE, EVEN IF READLORE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>13. Indemnification</h3>
+        <p>You agree to defend, indemnify, and hold harmless ReadLore, its affiliates, and their respective officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorneys' fees and costs, arising out of or in any way connected with your access to or use of the service or your violation of these Terms.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>14. Governing Law</h3>
+        <p>These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions. You agree that any legal action or proceeding between you and ReadLore shall be brought exclusively in the courts located within [Your Jurisdiction].</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>15. Changes to Terms</h3>
+        <p>ReadLore reserves the right to modify these Terms at any time. We will provide notice of significant changes by posting the new Terms on our platform and updating the "Last Updated" date. Your continued use of the service after such changes constitutes your acceptance of the new Terms.</p>
+      </div>
+
+      <div class="terms-section">
+        <h3>16. Contact Us</h3>
+        <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@readlore.com">support@readlore.com</a> or through our Help Center.</p>
+      </div>
+
+      <p class="last-updated">Last Updated: May 13, 2025</p>
+
+      <div class="agreement-buttons">
+        <button class="btn btn-primary" id="agreeButton">I Agree to the Terms</button>
+        <button class="btn btn-secondary" id="declineButton">I Decline</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('agreeButton').addEventListener('click', function() {
+    alert('Thank you for agreeing to ReadLore\'s Terms and Conditions!');
+    window.location.href = 'Dashboard.html';
+  });
+
+  document.getElementById('declineButton').addEventListener('click', function() {
+    alert('You must accept the Terms and Conditions to use ReadLore services.');
+  });
+
+  document.getElementById('logoutLink').addEventListener('click', function() {
+    if(confirm('Are you sure you want to logout?')) {
+      window.location.href = 'login.html';
+    }
+  });
+</script>
+</body>
+</html>

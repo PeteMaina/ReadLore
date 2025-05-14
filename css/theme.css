@@ -1,0 +1,22 @@
+:root {
+    --bg-color: #fff;
+    --text-color: #111;
+    /* Add your light variables */
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #f0f0f0;
+    /* Add your dark variables */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+body {
+    transition: background-color 0.6s ease, color 0.3s ease;
+  }
+  

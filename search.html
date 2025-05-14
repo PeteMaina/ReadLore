@@ -434,7 +434,10 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+
 </head>
+
 <body>
     <div class="app-container">
         <div class="sidebar">
@@ -443,17 +446,24 @@
                 <h1>ReadLore</h1>
             </div>
             <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="Dashboard.html"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="#" class="active"><i class="fas fa-search"></i> Search</a></li>
                 <li><a href="#"><i class="fas fa-bookmark"></i> Library</a></li>
                 <li><a href="pdf.html"><i class="fas fa-plus-square"></i> PDF</a></li>
-                <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
+                <li><a href="favorites.html"><i class="fas fa-heart"></i> Favorites</a></li>
                 <li><a href="#"><i class="fas fa-history"></i> Recent</a></li>
                 <li><a href="account.html"><i class="fas fa-user"></i> Profile</a></li>
             </ul>
+
+            <div style="margin-top: 5px;">
+                <ul class="nav-links">
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </div>
+
             <div style="margin-top: auto;">
                 <ul class="nav-links">
-                    <li><a href="#" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><a href="auth.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -464,7 +474,7 @@
                     <i class="fas fa-search" style="color: #777;"></i>
                     <input type="text" id="search-input" placeholder="Search for PDFs, authors, categories..." autofocus>
                 </div>
-                <a href="account.html">
+                <a href="account.html" style="text-decoration: none; color: var(--dark-blue);">
                     <div class="user-profile">
                         <img src="Images/person.jpg" alt="User Profile">
                         <span>Peter Maina. <br>2025 </span>
@@ -589,6 +599,8 @@
             </div>
         </div>
     </div>
+
+    <script src="js/darkmode.js"></script>
 
     <script>
         // Sample PDF data

@@ -248,26 +248,19 @@
         <input type="email" id="signupEmail" required />
       </div>
       <div class="form-group">
-        <label for="signupPassword">Password</label>
+        <label for="signupPassword">Password <span id="toggleSignup" style="cursor:pointer;">👁️</span></label>
         <input type="password" id="signupPassword" required />
       </div>
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">Confirm Password <span id="toggleSignup" style="cursor:pointer;">👁️</span></label>
         <input type="password" id="confirmPassword" required />
       </div>
-      <div class="form-group">
+      <span class="form-group">
         <label for="terms">
-          <input type="checkbox" id="terms" required />
-          I agree to the <a href="t&c.html">Terms and Conditions</a>
-        </label>
-      </div>
+        <span><label><input type="checkbox" id="terms" required /> I agree to the <a href="t&c.html">Terms and Conditions</a> and <a href="privacy.html">Privacy Policy</a></label></span>
+
       <div class="form-group">
-        <label for="privacy">
-          <input type="checkbox" id="privacy" required />
-          I agree to the <a href="privacy.html">Privacy Policy</a>
-        </label>
-      </div>
-      <button type="submit" class="auth-btn">Create Account</button>
+      <button type="submit" class="auth-btn" onclick="agreetcp">Create Account</button>
       <div class="auth-links">
         <a href="#" id="loginLink">Already have an account? Log in</a>
       </div>
@@ -332,6 +325,88 @@
       alert("Password reset link sent!");
       showPage('loginPage');
     });
+
+    // JavaScript Code (Add to your existing JS or <script> block)
+document.addEventListener('DOMContentLoaded', function () {
+  const passwordInput = document.getElementById('signupPassword');
+  const confirmInput = document.getElementById('confirmPassword');
+  const toggleSignup = document.getElementById('toggleSignup');
+  const toggleConfirm = document.getElementById('toggleConfirm');
+
+  let passwordTimer;
+  let confirmTimer;
+
+  // Show/Hide toggle
+  function setupToggle(input, toggleIcon) {
+    toggleIcon.addEventListener('click', function () {
+      const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+      input.setAttribute('type', type);
+      toggleIcon.textContent = type === 'password' ? '👁️' : '🚫';
+    });
+  }
+
+  // Password strength check
+  function checkPasswordStrength(password) {
+    const suggestions = [];
+    const lengthValid = password.length >= 8;
+    const upperCaseValid = /[A-Z]/.test(password);
+    const lowerCaseValid = /[a-z]/.test(password);
+    const numberValid = /[0-9]/.test(password);
+    const specialCharValid = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (!lengthValid) suggestions.push('Use at least 8 characters.');
+    if (!upperCaseValid) suggestions.push('Add an uppercase letter.');
+    if (!lowerCaseValid) suggestions.push('Add a lowercase letter.');
+    if (!numberValid) suggestions.push('Include a number.');
+    if (!specialCharValid) suggestions.push('Add a special character.');
+
+    const isStrong = lengthValid && upperCaseValid && lowerCaseValid && numberValid && specialCharValid;
+    return { isStrong, suggestions };
+  }
+
+  // Delayed validation logic
+  function delayedValidation() {
+    const password = passwordInput.value;
+    const confirm = confirmInput.value;
+
+    const { isStrong, suggestions } = checkPasswordStrength(password);
+
+    if (password !== confirm) {
+      alert('Passwords do not match.');
+      return;
+    }
+
+    if (!isStrong) {
+      alert('Weak password:\n' + suggestions.join('\n'));
+      return;
+    }
+
+    alert('Password👌');
+  }
+
+  // Debounce on password typing
+  function setupDebounce(input, delayCallback) {
+    return function () {
+      clearTimeout(passwordTimer);
+      passwordTimer = setTimeout(delayCallback, 4000); // 4 seconds after typing stops
+    };
+  }
+
+  function setupConfirmDebounce(input, delayCallback) {
+    return function () {
+      clearTimeout(confirmTimer);
+      confirmTimer = setTimeout(delayCallback, 4000);
+    };
+  }
+
+  // Apply event listeners
+  passwordInput.addEventListener('input', setupDebounce(passwordInput, delayedValidation));
+  confirmInput.addEventListener('input', setupConfirmDebounce(confirmInput, delayedValidation));
+
+  setupToggle(passwordInput, toggleSignup);
+  setupToggle(confirmInput, toggleConfirm);
+});
+
   </script>
   
 
